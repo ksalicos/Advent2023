@@ -6,31 +6,27 @@ using System.Threading.Tasks;
 
 namespace Advent2023
 {
-    internal static class CalibrationReader
+    internal class DayOne
     {
-        internal static void Go()
+        internal void Go()
         {
             string? line;
             int sum = 0;
             try
             {
-                StreamReader sr = new StreamReader("C:\\code\\advent2023\\day1input1.txt");
+                StreamReader sr = new StreamReader("C:\\code\\advent2023\\day1input.txt");
                 line = sr.ReadLine();
                 while (line != null)
                 {
-                    sum += CalibrationReader.ReadCalibrationValue(line);
+                    sum += DayOne.ReadCalibrationValue(line);
                     line = sr.ReadLine();
                 }
                 sr.Close();
-                Console.WriteLine(sum);
+                Console.WriteLine("Day One: " + sum);
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception: " + e.Message);
-            }
-            finally
-            {
-                Console.WriteLine("Executing finally block.");
             }
         }
 

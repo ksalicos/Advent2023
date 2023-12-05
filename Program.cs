@@ -1,3 +1,6 @@
 ﻿using Advent2023;
-new SchematicReader().Go();
+
+new DayOne().Go();
+new DayTwo().Go();
+new DayThree().Go();
 new DayFour().Go();

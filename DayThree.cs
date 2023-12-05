@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Advent2023
 {
-    internal class SchematicReader
+    internal class DayThree
     {
         private List<(int, int, char)> _symbols = new List<(int, int, char)>();
         private List<(int, int, string)> _numbers = new List<(int, int, string)>();
@@ -26,8 +26,8 @@ namespace Advent2023
                 }
                 sr.Close();
 
-                GetParts();
-                GetGearSum();
+                PartOne();
+                PartTwo();
             }
             catch (Exception e)
             {
@@ -35,7 +35,7 @@ namespace Advent2023
             }
         }
 
-        private void GetParts()
+        private void PartOne()
         {
             var sum = 0;
             foreach (var n in _numbers)
@@ -44,15 +44,11 @@ namespace Advent2023
                 {
                     sum += int.Parse(n.Item3);
                 }
-                else
-                {
-                    Console.WriteLine($"Line {n.Item1}, {n.Item3}");
-                }
             }
             Console.WriteLine($"Day Three Part One: {sum}");
         }
 
-        private void GetGearSum()
+        private void PartTwo()
         {
             var sum = _symbols.Where(s => s.Item3 == '*')
                 .Select(GetAdjacentParts)

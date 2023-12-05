@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Advent2023
 {
-    internal class BagValidator
+    internal class DayTwo
     {
         internal const int maxRed = 12;
         internal const int maxGreen = 13;
         internal const int maxBlue = 14;
 
-        internal static void Go()
+        internal void Go()
         {
             string? line;
             int sum = 0;
@@ -26,7 +26,7 @@ namespace Advent2023
                     line = sr.ReadLine();
                 }
                 sr.Close();
-                Console.WriteLine(sum);
+                Console.WriteLine("Day Two: " + sum);
             }
             catch (Exception e)
             {
@@ -46,9 +46,9 @@ namespace Advent2023
                 {
                     int max;
                     var pair = v.Split(" ");
-                    if (pair[1] == "red") max = BagValidator.maxRed;
-                    else if (pair[1] == "green") max = BagValidator.maxGreen;
-                    else if (pair[1] == "blue") max = BagValidator.maxBlue;
+                    if (pair[1] == "red") max = DayTwo.maxRed;
+                    else if (pair[1] == "green") max = DayTwo.maxGreen;
+                    else if (pair[1] == "blue") max = DayTwo.maxBlue;
                     else throw new Exception("Invalid Color");
                     if (int.Parse(pair[0]) > max) return -1;
                 }
