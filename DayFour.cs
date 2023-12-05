@@ -24,7 +24,7 @@ namespace Advent2023
                 sr.Close();
 
                 PartOne();
-                // GetGearSum();
+                PartTwo();
             }
             catch (Exception e)
             {
@@ -32,7 +32,7 @@ namespace Advent2023
             }
         }
 
-        void PartOne()
+        private void PartOne()
         {
             var winners = _cards.Select(c => c.Yours.Count(y => c.Winners.Contains(y)));
             var sum = winners.Select(w => w == 0
@@ -41,6 +41,21 @@ namespace Advent2023
             ).Sum();
 
             Console.WriteLine("Day Four Part One: " + sum);
+        }
+
+        private void PartTwo()
+        {
+            foreach (var card in _cards)
+            {
+                if (card.Count <= 0) continue;
+                foreach (var target in _cards.Where(c=>c.Number > card.Number && c.Number <= card.Number + card.Count))
+                {
+                    target.Copies += card.Copies;
+                }
+            }
+
+            var sum = _cards.Sum(c => c.Copies);
+            Console.WriteLine("Day Four Part Two: " + sum);
         }
 
         private void ProcessLine(string s)
@@ -57,7 +72,7 @@ namespace Advent2023
 
         private int GetCardNumber(string s)
         {
-            int i = 0;
+            var i = 0;
             var num = string.Empty;
             while (s[i] != ':')
             {
@@ -77,8 +92,9 @@ namespace Advent2023
             internal int Number { get; set; }
             internal List<int> Winners { get; set; }
             internal List<int> Yours { get; set; }
+            internal int Copies { get; set; } = 1;
+            internal int Count => Yours.Count(c => this.Winners.Contains(c));
+
         }
     }
-
-
 }
