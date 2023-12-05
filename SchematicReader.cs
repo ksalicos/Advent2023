@@ -8,7 +8,7 @@ namespace Advent2023
 {
     internal class SchematicReader
     {
-        private List<(int, int)> _symbols = new List<(int, int)>();
+        private List<(int, int, char)> _symbols = new List<(int, int, char)>();
         private List<(int, int, string)> _numbers = new List<(int, int, string)>();
 
         internal void Go()
@@ -26,20 +26,8 @@ namespace Advent2023
                 }
                 sr.Close();
 
-                var sum = 0;
-                foreach (var n in _numbers)
-                {
-                    if (IsAdjacent(n))
-                    {
-                        sum += int.Parse(n.Item3);
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Line {n.Item1}, {n.Item3}");
-                    }
-                }
-
-                Console.WriteLine($"Day Three Part One: {sum}");
+                GetParts();
+                GetGearSum();
             }
             catch (Exception e)
             {
@@ -47,12 +35,49 @@ namespace Advent2023
             }
         }
 
-        private bool IsAdjacent((int, int, string) n)
+        private void GetParts()
         {
-            return _symbols.Any(s =>
+            var sum = 0;
+            foreach (var n in _numbers)
+            {
+                if (_symbols.Any(s=> IsAdjacent(n,s)))
+                {
+                    sum += int.Parse(n.Item3);
+                }
+                else
+                {
+                    Console.WriteLine($"Line {n.Item1}, {n.Item3}");
+                }
+            }
+            Console.WriteLine($"Day Three Part One: {sum}");
+        }
+
+        private void GetGearSum()
+        {
+            var sum = _symbols.Where(s => s.Item3 == '*')
+                .Select(GetAdjacentParts)
+                .Where(p=>p.Count == 2)
+                .Select(p => int.Parse(p.First())
+                             * int.Parse(p.Last()))
+                .Sum();
+
+            Console.WriteLine($"Day Three Part Two: {sum}");
+        }
+
+        private List<string> GetAdjacentParts((int, int, char) s)
+        {
+            var parts = _numbers.Where(n =>
+                IsAdjacent(n, s))
+                .Select(n=>n.Item3)
+                .ToList();
+            return parts;
+        }
+
+        private bool IsAdjacent((int, int, string) n, (int, int, char) s)
+        {
+            return
                 (s.Item1 >= n.Item1 - 1 && s.Item1 <= n.Item1 + 1)
-                && (s.Item2 >= n.Item2 - 1 && s.Item2 <= n.Item2 + n.Item3.Length)
-            );
+                && (s.Item2 >= n.Item2 - 1 && s.Item2 <= n.Item2 + n.Item3.Length);
         }
 
         private void ProcessLine(string s, int num)
@@ -63,7 +88,7 @@ namespace Advent2023
                 if (char.IsDigit(s[i]))
                 {
                     var j = 0;
-                    while (i + j < s.Length && char.IsDigit(s[i+j]))
+                    while (i + j < s.Length && char.IsDigit(s[i + j]))
                     {
                         j++;
                     }
@@ -71,11 +96,11 @@ namespace Advent2023
                     _numbers.Add((num, i, value));
                     i += j;
                 }
-                else 
+                else
                 {
                     if (s[i] != '.')
                     {
-                        _symbols.Add((num, i));
+                        _symbols.Add((num, i, s[i]));
                     }
                     i++;
                 }
