@@ -22,12 +22,7 @@ namespace Advent2023
                 line = sr.ReadLine();
                 while (line != null)
                 {
-                    var v = ValidateLine(line);
-                    if (v != -1)
-                    {
-                        sum += v;
-                    }
-
+                    sum += GetLinePower(line);
                     line = sr.ReadLine();
                 }
                 sr.Close();
@@ -61,5 +56,54 @@ namespace Advent2023
             var game = int.Parse(s.Substring(0, colon).Split(" ")[1]);
             return game;
         }
+
+        private static int GetLinePower(string s)
+        {
+            var g = GetGame(s);
+            var power = g.Pulls.Max(x=>x.Red)
+                * g.Pulls.Max(x=>x.Green)
+                * g.Pulls.Max(x=>x.Blue);
+
+            return power;
+        }
+
+        private static Game GetGame(string s)
+        {
+            var game = new Game();
+            var colon = s.IndexOf(':');
+            var pulls = s.Substring(colon + 2).Split("; ");
+            foreach (var p in pulls)
+            {
+                var pull = new Pull();
+                var values = p.Split(", ");
+                foreach (var v in values)
+                {
+                    var pair = v.Split(" ");
+                    var value = int.Parse(pair[0]);
+                    if (pair[1] == "red") pull.Red = value;
+                    else if (pair[1] == "green") pull.Green = value;
+                    else if (pair[1] == "blue") pull.Blue = value;
+                    else throw new Exception("Invalid Color");
+                }
+                game.Pulls.Add(pull);
+            }
+            game.Number = int.Parse(s.Substring(0, colon).Split(" ")[1]);
+            return game;
+        }
+
     }
+
+    internal class Game
+    {
+        internal int Number { get; set; }
+        internal List<Pull> Pulls { get; set; } = new();
+    }
+
+    internal class Pull
+    {
+        internal int Red { get; set; }
+        internal int Green { get; set; }
+        internal int Blue { get; set; }
+    }
+
 }
