@@ -13,12 +13,31 @@ namespace Advent2023
             int? firstValue = null;
             int? secondValue = null;
 
-            foreach (var t in s)
+            var i = 0;
+            while (i < s.Length)
             {
-                var v = (int)char.GetNumericValue((t));
-                if (v == -1) continue;
-                firstValue ??= v;
-                secondValue = v;
+                var c = s[i];
+                if (char.IsDigit(c))
+                {
+                    var v = (int)char.GetNumericValue(c);
+                    firstValue ??= v;
+                    secondValue = v;
+                }
+                else
+                {
+                    var j = i + 1;
+                    while (j < s.Length && !char.IsDigit(s[j]))
+                    {
+                        var v = GetNumericValue(s.Substring(i, j - i + 1));
+                        if (v != -1)
+                        {
+                            firstValue ??= v;
+                            secondValue = v;
+                        }
+                        j++;
+                    }
+                }
+                i++;
             }
 
             if (firstValue == null)
@@ -27,6 +46,24 @@ namespace Advent2023
             }
             var value = firstValue * 10 + secondValue;
             return value.Value;
+        }
+
+        private static int GetNumericValue(string s)
+        {
+            return s.ToLower() switch
+            {
+                "one" => 1,
+                "two" => 2,
+                "three" => 3,
+                "four" => 4,
+                "five" => 5,
+                "six" => 6,
+                "seven" => 7,
+                "eight" => 8,
+                "nine" => 9,
+                "zero" => 0,
+                _ => -1
+            };
         }
     }
 }
