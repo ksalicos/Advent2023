@@ -1,3 +1,3 @@
 ﻿using Advent2023;
 
-BagValidator.Go();
+new SchematicReader().Go();
