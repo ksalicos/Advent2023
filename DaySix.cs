@@ -23,12 +23,26 @@ namespace Advent2023
                 sr.Close();
 
                 PartOne();
-                // PartTwo();
+                PartTwo();
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception: " + e.Message);
             }
+        }
+
+        private long GetWinCount(long time, long distance)
+        {
+            var count = 0;
+            for (var j = 0; j < time; j++)
+            {
+                if (j * (time - j) > distance)
+                {
+                    count++;
+                }
+            }
+
+            return count;
         }
 
         private void PartOne()
@@ -38,18 +52,19 @@ namespace Advent2023
             {
                 var time = _times[i];
                 var distance = _distances[i];
-                var count = 0;
-                for (var j = 0; j < time; j++)
-                {
-                    if (j * (time - j) > distance)
-                    {
-                        count++;
-                    }
-                }
+                var count = GetWinCount(time, distance);
                 total *= count;
             }
 
             Console.WriteLine("Day Six Part One: " + total);
+        }
+
+        private void PartTwo()
+        {
+            var time = long.Parse(string.Join("",_times.Select(s => s.ToString())));
+            var distance = long.Parse(string.Join("",_distances.Select(s => s.ToString())));
+            var total = GetWinCount(time, distance);
+            Console.WriteLine("Day Six Part Two: " + total);
         }
     }
 }
