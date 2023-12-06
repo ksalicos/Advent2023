@@ -20,7 +20,7 @@ namespace Advent2023
                 // var sr = new StreamReader("C:\\code\\advent2023\\day5test.txt");
                 var sr = new StreamReader("C:\\code\\advent2023\\day5input.txt");
                 var line = sr.ReadLine();
-                _seeds = GetNumbers(line);
+                _seeds = Shared.GetNumbers(line);
                 _seedMap = _seeds.ToDictionary(s => s, s => s);
                 var mapKey = string.Empty;
                 line = sr.ReadLine();
@@ -48,7 +48,7 @@ namespace Advent2023
                     }
                     else
                     {
-                        var map = GetNumbers(line);
+                        var map = Shared.GetNumbers(line);
                         if (map.Count == 3)
                         {
                             _maps[mapKey].Add(new Map(map));
@@ -68,26 +68,6 @@ namespace Advent2023
             {
                 Console.WriteLine("Exception: " + e.Message);
             }
-        }
-
-        private static List<long> GetNumbers(string s)
-        {
-            // Strip digits from a string, any non-digit is considered a separator.
-            var r = new StringBuilder();
-            var result = new List<long>();
-            foreach (var c in s)
-            {
-                if (char.IsDigit(c)) r.Append(c);
-                if (c != ' ' || r.Length == 0) continue;
-                result.Add(long.Parse(r.ToString()));
-                r.Clear();
-            }
-
-            if (r.Length != 0)
-            {
-                result.Add(long.Parse(r.ToString()));
-            }
-            return result;
         }
 
         private long MapValue(long k, List<Map> maps)
