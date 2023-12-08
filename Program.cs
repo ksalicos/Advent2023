@@ -1,8 +1,9 @@
 ﻿using Advent2023;
 
-new DayOne().Go();
-new DayTwo().Go();
-new DayThree().Go();
-new DayFour().Go();
-new DayFive().Go();
-new DaySix().Go();
+new Day1().Go();
+new Day2().Go();
+new Day3().Go();
+new Day4().Go();
+new Day5().Go();
+new Day6().Go();
+new Day7().Go();

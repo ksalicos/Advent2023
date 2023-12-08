@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Advent2023
 {
-    internal class DaySix
+    internal class Day6
     {
         private List<long> _times;
         private List<long> _distances;

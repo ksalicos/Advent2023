@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Advent2023
 {
-    internal class DayTwo
+    internal class Day2
     {
         internal const int maxRed = 12;
         internal const int maxGreen = 13;
@@ -46,9 +46,9 @@ namespace Advent2023
                 {
                     int max;
                     var pair = v.Split(" ");
-                    if (pair[1] == "red") max = DayTwo.maxRed;
-                    else if (pair[1] == "green") max = DayTwo.maxGreen;
-                    else if (pair[1] == "blue") max = DayTwo.maxBlue;
+                    if (pair[1] == "red") max = Day2.maxRed;
+                    else if (pair[1] == "green") max = Day2.maxGreen;
+                    else if (pair[1] == "blue") max = Day2.maxBlue;
                     else throw new Exception("Invalid Color");
                     if (int.Parse(pair[0]) > max) return -1;
                 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Advent2023
 {
-    internal class DayThree
+    internal class Day3
     {
         private List<(int, int, char)> _symbols = new List<(int, int, char)>();
         private List<(int, int, string)> _numbers = new List<(int, int, string)>();

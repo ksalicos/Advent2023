@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Advent2023
 {
-    internal class DayFive
+    internal class Day5
     {
         private List<long>? _seeds;
         private readonly Dictionary<string, List<Map>> _maps = new();
