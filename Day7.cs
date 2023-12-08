@@ -211,13 +211,13 @@ namespace Advent2023
                 return HandType.Five;
             }
 
-            if (c.Values.Any(v => v == 4) || c.Any(x => x.Value + jokers == 4 && x.Key != 'J'))
+            if (c.Any(x => x.Value + jokers == 4 && x.Key != 'J'))
             {
 
                 return HandType.Four;
             }
 
-            if (c.Values.Any(v => v == 3 || v + jokers == 3))
+            if (c.Any(x => x.Value + jokers == 3 && x.Key != 'J'))
             {
                 return (c.Values.Any(v => v == 3) && c.Values.Any(v => v == 2))
                     || c.Values.Count(v => v == 2) == 2
@@ -230,7 +230,7 @@ namespace Advent2023
                 return HandType.TwoPair;
             }
 
-            return c.Values.Any(v => v + jokers == 2) ? HandType.Pair : HandType.High;
+            return c.Any(x => x.Value + jokers == 2 && x.Key != 'J') ? HandType.Pair : HandType.High;
         }
     }
 }
