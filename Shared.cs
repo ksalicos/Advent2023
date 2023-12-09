@@ -27,5 +27,25 @@ namespace Advent2023
             }
             return result;
         }
+
+        internal static List<int> GetInts(string s)
+        {
+            // Strip digits from a string, any non-digit is considered a separator.
+            var r = new StringBuilder();
+            var result = new List<int>();
+            foreach (var c in s)
+            {
+                if (char.IsDigit(c)) r.Append(c);
+                if (c != ' ' || r.Length == 0) continue;
+                result.Add(int.Parse(r.ToString()));
+                r.Clear();
+            }
+
+            if (r.Length != 0)
+            {
+                result.Add(int.Parse(r.ToString()));
+            }
+            return result;
+        }
     }
 }
