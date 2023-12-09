@@ -16,3 +16,5 @@ Day 5: Having source and destination in the reverse order from what I'd expect a
 Day 6: Super easy to make up for yesterday?  Brute force ran fast enough that I didn't look for an optimal solution.  Maybe solve for i*(n1-i)-n2 == 0?
 
 Day 7: Had some trouble getting my head around the proper way to compute the of value hands in part two.  After running against test code from Reddit, I found that I was missing the edge case where jokers were being added to themselves to hit the target number.
+
+Day 8: Now that I've seen solutions, I don't know that I like the LCM version.  I'd rather have code that works without assumptions made about the input.  Still opportunities to speed this up: Chinese remainder theorem?

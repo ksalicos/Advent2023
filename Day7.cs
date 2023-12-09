@@ -128,8 +128,7 @@ namespace Advent2023
                 var rank = i + 1;
                 var score = rank * card.Bid;
                 total += score;
-                //if (card.GetHandType2() != card.GetHandType())
-                Console.WriteLine($"{rank}: {card} ({card.GetHandType2()}) score: {score} total: {total}");
+                // Console.WriteLine($"{rank}: {card} ({card.GetHandType2()}) score: {score} total: {total}");
             }
 
             Console.WriteLine("Day Seven Part Two: " + total);
@@ -213,7 +212,6 @@ namespace Advent2023
 
             if (c.Any(x => x.Value + jokers == 4 && x.Key != 'J'))
             {
-
                 return HandType.Four;
             }
 

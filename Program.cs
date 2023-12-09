@@ -7,3 +7,4 @@ new Day4().Go();
 new Day5().Go();
 new Day6().Go();
 new Day7().Go();
+new Day8().Go();
