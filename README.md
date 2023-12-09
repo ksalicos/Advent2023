@@ -18,3 +18,5 @@ Day 6: Super easy to make up for yesterday?  Brute force ran fast enough that I 
 Day 7: Had some trouble getting my head around the proper way to compute the of value hands in part two.  After running against test code from Reddit, I found that I was missing the edge case where jokers were being added to themselves to hit the target number.
 
 Day 8: Now that I've seen solutions, I don't know that I like the LCM version.  I'd rather have code that works without assumptions made about the input.  Still opportunities to speed this up: Chinese remainder theorem?
+
+Day 9: Brute force was fast and easy, didn't see an obvious algorithm to get cute.
