@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Advent2023
 {
-    internal class Day8
+    internal class Day08
     {
         private readonly Dictionary<string, (string, string)> _nodes = new();
         private string _directions;
@@ -16,8 +16,8 @@ namespace Advent2023
         {
             try
             {
-                // var sr = new StreamReader("C:\\code\\advent2023\\day8test.txt");
-                var sr = new StreamReader("C:\\code\\advent2023\\day8input.txt");
+                // var sr = new StreamReader("C:\\code\\advent2023\\day08test.txt");
+                var sr = new StreamReader("C:\\code\\advent2023\\day08input.txt");
                 _directions = sr.ReadLine();
 
                 var line = sr.ReadLine();
@@ -61,12 +61,6 @@ namespace Advent2023
             Console.WriteLine($"Day Eight Part One: " + steps);
         }
 
-
-        void foo()
-        {
-
-        }
-
         private void PartTwo()
         {
             var toNextZ = new Dictionary<string, (string, int)>();
@@ -81,7 +75,6 @@ namespace Advent2023
                     var location = s.Item1;
                     var idx = s.Item2;
 
-                    // This runs forever on bad data.
                     do
                     {
                         location = _directions[idx % _directions.Length] == 'L'
@@ -118,29 +111,5 @@ namespace Advent2023
 
             Console.WriteLine($"Day Eight Part Two: " + stepsTaken);
         }
-
-        private void PartTwoBrute()
-
-        {
-            var locations = _nodes.Keys.Where(n => n.EndsWith("A")).ToList();
-            long steps = 0;
-
-            while (locations.Any(v => !v.EndsWith("Z")))
-            {
-                var d = steps % _directions.Length;
-                locations = locations.Select(l => d == 'L' ? _nodes[l].Item1 : _nodes[l].Item2).ToList();
-                steps++;
-            }
-
-            Console.WriteLine($"Day Eight Part Two: " + steps);
-        }
     }
-
-    internal class Node
-    {
-        internal string Name { get; set; }
-        internal string Left { get; set; }
-        internal string Right { get; set; }
-    }
-
 }

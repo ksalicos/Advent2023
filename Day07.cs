@@ -8,10 +8,10 @@ using System.Xml;
 
 namespace Advent2023
 {
-    internal class Day7
+    internal class Day07
     {
         private readonly List<Hand> _hands = new();
-        internal static Dictionary<char, short> _values = new()
+        internal static readonly Dictionary<char, short> Values = new()
         {
             {'2',2},
             {'3',3},
@@ -28,7 +28,7 @@ namespace Advent2023
             {'A',14},
         };
 
-        internal static Dictionary<char, short> _values2 = new()
+        internal static readonly Dictionary<char, short> Values2 = new()
         {
             {'J',1},
             {'2',2},
@@ -49,8 +49,8 @@ namespace Advent2023
         {
             try
             {
-                // var sr = new StreamReader("C:\\code\\advent2023\\day7test.txt");
-                var sr = new StreamReader("C:\\code\\advent2023\\day7input.txt");
+                // var sr = new StreamReader("C:\\code\\advent2023\\day07test.txt");
+                var sr = new StreamReader("C:\\code\\advent2023\\day07input.txt");
                 var line = sr.ReadLine();
                 while (line != null)
                 {
@@ -80,8 +80,8 @@ namespace Advent2023
             if (left.GetHandType() < right.GetHandType()) return -1;
             for (var i = 0; i < left.Cards.Length; i++)
             {
-                if (_values[left.Cards[i]] > _values[right.Cards[i]]) return 1;
-                if (_values[left.Cards[i]] < _values[right.Cards[i]]) return -1;
+                if (Values[left.Cards[i]] > Values[right.Cards[i]]) return 1;
+                if (Values[left.Cards[i]] < Values[right.Cards[i]]) return -1;
             }
 
             return 0;
@@ -93,8 +93,8 @@ namespace Advent2023
             if (left.GetHandType2() < right.GetHandType2()) return -1;
             for (var i = 0; i < left.Cards.Length; i++)
             {
-                if (_values2[left.Cards[i]] > _values2[right.Cards[i]]) return 1;
-                if (_values2[left.Cards[i]] < _values2[right.Cards[i]]) return -1;
+                if (Values2[left.Cards[i]] > Values2[right.Cards[i]]) return 1;
+                if (Values2[left.Cards[i]] < Values2[right.Cards[i]]) return -1;
             }
             return 0;
         }
@@ -161,7 +161,7 @@ namespace Advent2023
         public override string ToString()
         {
             var s = Cards.ToList<char>();
-            s.Sort((r, l) => r == l ? 0 : Day7._values2[r] > Day7._values2[l] ? 1 : -1);
+            s.Sort((r, l) => r == l ? 0 : Day07.Values2[r] > Day07.Values2[l] ? 1 : -1);
             return $"{Cards} ({string.Join("", s)}) {Bid}";
         }
 

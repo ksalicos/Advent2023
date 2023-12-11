@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Advent2023
 {
-    internal class Day9
+    internal class Day09
     {
         private readonly List<List<int>> _histories = new();
 
@@ -14,8 +14,8 @@ namespace Advent2023
         {
             try
             {
-                // var sr = new StreamReader("C:\\code\\advent2023\\day9test.txt");
-                var sr = new StreamReader("C:\\code\\advent2023\\day9input.txt");
+                // var sr = new StreamReader("C:\\code\\advent2023\\day09test.txt");
+                var sr = new StreamReader("C:\\code\\advent2023\\day09input.txt");
 
                 var line = sr.ReadLine();
                 while (line != null)
@@ -47,7 +47,7 @@ namespace Advent2023
             foreach (var n in _histories)
             {
                 var current = n;
-                List<List<int>> foo = new() { n };
+                List<List<int>> nextLines = new() { n };
                 while (current.Any(x => x != 0))
                 {
                     var differences = new List<int>();
@@ -56,16 +56,11 @@ namespace Advent2023
                         differences.Add(current[i] - current[i - 1]);
                     }
 
-                    if (differences.Count == 0)
-                    {
-                        throw new Exception("huh");
-                    }
-
-                    foo.Add(differences);
+                    nextLines.Add(differences);
                     current = differences;
                 }
 
-                var sum1 = foo.Sum(x => x.Last());
+                var sum1 = nextLines.Sum(x => x.Last());
                 sum += sum1;
             }
 
@@ -78,7 +73,7 @@ namespace Advent2023
             foreach (var n in _histories)
             {
                 var current = n;
-                List<List<int>> foo = new() { n };
+                List<List<int>> nextLines = new() { n };
                 while (current.Any(x => x != 0))
                 {
                     var differences = new List<int>();
@@ -87,19 +82,14 @@ namespace Advent2023
                         differences.Add(current[i] - current[i - 1]);
                     }
 
-                    if (differences.Count == 0)
-                    {
-                        throw new Exception("huh");
-                    }
-
-                    foo.Add(differences);
+                    nextLines.Add(differences);
                     current = differences;
                 }
 
                 var result = 0;
-                for (var i = foo.Count - 1; i >= 0; i-- )
+                for (var i = nextLines.Count - 1; i >= 0; i-- )
                 {
-                    result = foo[i].First() - result;
+                    result = nextLines[i].First() - result;
                 }
 
                 sum += result;

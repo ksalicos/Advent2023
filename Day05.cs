@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Advent2023
 {
-    internal class Day5
+    internal class Day05
     {
         private List<long>? _seeds;
         private readonly Dictionary<string, List<Map>> _maps = new();
@@ -17,8 +17,8 @@ namespace Advent2023
         {
             try
             {
-                // var sr = new StreamReader("C:\\code\\advent2023\\day5test.txt");
-                var sr = new StreamReader("C:\\code\\advent2023\\day5input.txt");
+                // var sr = new StreamReader("C:\\code\\advent2023\\day05test.txt");
+                var sr = new StreamReader("C:\\code\\advent2023\\day05input.txt");
                 var line = sr.ReadLine();
                 _seeds = Shared.GetNumbers(line);
                 _seedMap = _seeds.ToDictionary(s => s, s => s);
@@ -146,12 +146,12 @@ namespace Advent2023
             return result;
         }
 
-        List<Range> DivideRangesByMap(List<Range> r, Map m, int depth = 0)
+        private List<Range> DivideRangesByMap(List<Range> r, Map m, int depth = 0)
         {
             return r.SelectMany(x => DivideRangeByMap(x, m)).ToList();
         }
 
-        List<Range> DivideRangeByMap(Range r, Map m, int depth = 0)
+        private List<Range> DivideRangeByMap(Range r, Map m, int depth = 0)
         {
             var result = new List<Range>();
             // Range doesn't intersect map

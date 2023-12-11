@@ -10,15 +10,14 @@ namespace Advent2023
     {
         internal void Go()
         {
-            string? line;
-            int sum = 0;
+            var sum = 0;
             try
             {
-                StreamReader sr = new StreamReader("C:\\code\\advent2023\\day1input.txt");
-                line = sr.ReadLine();
+                var sr = new StreamReader("C:\\code\\advent2023\\day01input.txt");
+                var line = sr.ReadLine();
                 while (line != null)
                 {
-                    sum += Day01.ReadCalibrationValue(line);
+                    sum += ReadCalibrationValue(line);
                     line = sr.ReadLine();
                 }
                 sr.Close();
@@ -66,6 +65,7 @@ namespace Advent2023
             {
                 throw new Exception("No values found");
             }
+
             var value = firstValue * 10 + secondValue;
             return value.Value;
         }

@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Advent2023
 {
-    internal class Day3
+    internal class Day03
     {
-        private List<(int, int, char)> _symbols = new List<(int, int, char)>();
-        private List<(int, int, string)> _numbers = new List<(int, int, string)>();
+        private readonly List<(int, int, char)> _symbols = new List<(int, int, char)>();
+        private readonly List<(int, int, string)> _numbers = new List<(int, int, string)>();
 
         internal void Go()
         {
             var lineNum = 0;
             try
             {
-                var sr = new StreamReader("C:\\code\\advent2023\\day3input.txt");
+                var sr = new StreamReader("C:\\code\\advent2023\\day03input.txt");
                 var line = sr.ReadLine();
                 while (line != null)
                 {

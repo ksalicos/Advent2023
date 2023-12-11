@@ -8,10 +8,10 @@ namespace Advent2023
 {
     internal class Day10
     {
-        private const int height = 140;
-        private const int width = 140;
-        private char[][] map = new char[height][];
-        private int StartX, StartY;
+        private const int Height = 140;
+        private const int Width = 140;
+        private readonly char[][] _map = new char[Height][];
+        private int _startX, _startY;
 
         internal void Go()
         {
@@ -26,11 +26,11 @@ namespace Advent2023
                 {
                     if (line.Length > 0)
                     {
-                        map[i] = line.ToCharArray();
+                        _map[i] = line.ToCharArray();
                         if (line.Contains('S'))
                         {
-                            StartX = line.IndexOf('S');
-                            StartY = i;
+                            _startX = line.IndexOf('S');
+                            _startY = i;
                         }
                     }
                     line = sr.ReadLine();
@@ -49,80 +49,79 @@ namespace Advent2023
 
         private (int, int, char) GetNext(int y, int x, char d)
         {
-            Func<int, int, (int, int, char)> North = (y, x) => (y - 1, x, 'n');
-            Func<int, int, (int, int, char)> South = (y, x) => (y + 1, x, 's');
-            Func<int, int, (int, int, char)> East = (y, x) => (y, x + 1, 'e');
-            Func<int, int, (int, int, char)> West = (y, x) => (y, x - 1, 'w');
+            (int, int, char) North(int y, int x) => (y - 1, x, 'n');
+            (int, int, char) South(int y, int x) => (y + 1, x, 's');
+            (int, int, char) East(int y, int x) => (y, x + 1, 'e');
+            (int, int, char) West(int y, int x) => (y, x - 1, 'w');
 
-            switch (map[y][x])
+            return _map[y][x] switch
             {
-                case '|': return d == 'n' ? North(y, x) : South(y, x);
-                case '-': return d == 'e' ? East(y, x) : West(y, x);
-                case 'L': return d == 'w' ? North(y, x) : East(y, x);
-                case 'J': return d == 'e' ? North(y, x) : West(y, x);
-                case '7': return d == 'e' ? South(y, x) : West(y, x);
-                case 'F': return d == 'w' ? South(y, x) : East(y, x);
-
-                default: throw new Exception("Unknown Direction");
-            }
+                '|' => d == 'n' ? North(y, x) : South(y, x),
+                '-' => d == 'e' ? East(y, x) : West(y, x),
+                'L' => d == 'w' ? North(y, x) : East(y, x),
+                'J' => d == 'e' ? North(y, x) : West(y, x),
+                '7' => d == 'e' ? South(y, x) : West(y, x),
+                'F' => d == 'w' ? South(y, x) : East(y, x),
+                _ => throw new Exception("Unknown Direction")
+            };
         }
 
         private void PartOne()
         {
             // looking at input, path must start north and end east
-            var current = (StartY - 1, StartX, 'n');
+            var current = (_startY - 1, StartX: _startX, 'n');
             var steps = 1;
 
-            while (map[current.Item1][current.Item2] != 'S')
+            while (_map[current.Item1][current.Item2] != 'S')
             {
                 current = GetNext(current.Item1, current.Item2, current.Item3);
                 steps++;
             }
 
-            Console.WriteLine("Day 10 Part One: " + steps / 2);
+            Console.WriteLine("Day Ten Part One: " + steps / 2);
         }
 
         private void PartTwo()
         {
-            var current = (StartY - 1, StartX, 'n');
-            var pipe = new List<(int, int, char)> { (StartY, StartX, 'n'), (current.Item1, current.Item2, 'n') };
+            var current = (_startY - 1, StartX: _startX, 'n');
+            var pipe = new List<(int, int, char)> { (_startY, _startX, 'n'), (current.Item1, current.Item2, 'n') };
 
-            while (map[current.Item1][current.Item2] != 'S')
+            while (_map[current.Item1][current.Item2] != 'S')
             {
                 current = GetNext(current.Item1, current.Item2, current.Item3);
                 pipe.Add(current);
             }
 
-            var left = new List<char> { 'L', 'F', 'S' };
-            var right = new List<char> { 'J', '7' };
-            var all = new List<char> { 'J', 'L', 'F', '7', '|' };
             var count = 0;
-            for (var y = 0; y < width; y++)
+            for (var y = 0; y < Width; y++)
             {
                 var inLoop = false;
-                for (var x = 0; x < height; x++)
+                for (var x = 0; x < Height; x++)
                 {
-                    var m = map[y][x];
+                    var m = _map[y][x];
 
                     if (pipe.Any(p => p.Item1 == y && p.Item2 == x))
                     {
                         Console.ForegroundColor = ConsoleColor.Cyan;
-
                         var d = pipe.First(p => p.Item1 == y && p.Item2 == x).Item3;
 
-                        if (m == '|')
+                        switch (m)
                         {
-                            inLoop = d == 'n';
+                            case '|':
+                                inLoop = d == 'n';
+                                break;
+                            case 'J':
+                                inLoop = d == 'e';
+                                break;
+                            case '7':
+                                inLoop = d == 'n';
+                                break;
+                            case 'S':
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                break;
                         }
-                        //else if (left.Contains(m))
-                        //{
-                        //    inLoop = d == 'e';
-                        //}
-                        if (m == 'J') inLoop = d == 'e';
-                        if (m == '7') inLoop = d == 'n';
 
-                        if (m == 'S') Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.Write(m);
+                        // Console.Write(m);
                     }
                     else
                     {
@@ -135,21 +134,16 @@ namespace Advent2023
                         {
                             Console.ForegroundColor = ConsoleColor.Black;
                         }
-                        Console.Write('*');
+                        // Console.Write('*');
 
                     }
                 }
 
-                Console.Write('\n');
+                // Console.Write('\n');
             }
 
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Day Ten Part Two: " + count);
         }
-    }
-
-    internal class Pipe
-    {
-        private List<Pipe> Adjacent = new();
     }
 }

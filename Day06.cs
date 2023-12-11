@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Advent2023
 {
-    internal class Day6
+    internal class Day06
     {
         private List<long> _times;
         private List<long> _distances;
@@ -15,7 +15,7 @@ namespace Advent2023
         {
             try
             {
-                var sr = new StreamReader("C:\\code\\advent2023\\day6input.txt");
+                var sr = new StreamReader("C:\\code\\advent2023\\day06input.txt");
                 var line = sr.ReadLine();
                 _times = Shared.GetNumbers(line);
                 line = sr.ReadLine();

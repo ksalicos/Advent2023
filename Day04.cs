@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Advent2023
 {
-    internal class Day4
+    internal class Day04
     {
-        private List<Card> _cards = new List<Card>();
+        private readonly List<Card> _cards = new List<Card>();
 
         internal void Go()
         {
             try
             {
-                var sr = new StreamReader("C:\\code\\advent2023\\day4input.txt");
+                var sr = new StreamReader("C:\\code\\advent2023\\day04input.txt");
                 var line = sr.ReadLine();
                 while (line != null)
                 {
@@ -61,34 +61,22 @@ namespace Advent2023
         private void ProcessLine(string s)
         {
             s = s.Replace("  ", " ");
-            var card = new Card();
-            var colon = s.IndexOf(':');
-            card.Number = GetCardNumber(s);
-            var numbers = s.Substring(colon + 2).Split('|');
-            card.Winners = numbers[0].Trim().Split(" ").Select(int.Parse).ToList();
-            card.Yours = numbers[1].Trim().Split(" ").Select(int.Parse).ToList();
+            var card = new Card(s);
+            
             _cards.Add(card);
-        }
-
-        private int GetCardNumber(string s)
-        {
-            var i = 0;
-            var num = string.Empty;
-            while (s[i] != ':')
-            {
-                if (char.IsDigit(s[i]))
-                {
-                    num += s[i];
-                }
-
-                i++;
-            }
-
-            return int.Parse(num);
         }
 
         internal class Card
         {
+            internal Card(string s)
+            {
+                var colon = s.IndexOf(':');
+                Number = (int)Shared.GetNumbers(s)[0];
+                var numbers = s.Substring(colon + 2).Split('|');
+                Winners = numbers[0].Trim().Split(" ").Select(int.Parse).ToList();
+                Yours = numbers[1].Trim().Split(" ").Select(int.Parse).ToList();
+            }
+
             internal int Number { get; set; }
             internal List<int> Winners { get; set; }
             internal List<int> Yours { get; set; }

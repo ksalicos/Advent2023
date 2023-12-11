@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Advent2023
 {
-    internal class Day2
+    internal class Day02
     {
         internal const int maxRed = 12;
         internal const int maxGreen = 13;
@@ -14,12 +14,11 @@ namespace Advent2023
 
         internal void Go()
         {
-            string? line;
-            int sum = 0;
+            var sum = 0;
             try
             {
-                var sr = new StreamReader("C:\\code\\advent2023\\day2input.txt");
-                line = sr.ReadLine();
+                var sr = new StreamReader("C:\\code\\advent2023\\day02input.txt");
+                var line = sr.ReadLine();
                 while (line != null)
                 {
                     sum += GetLinePower(line);
@@ -46,9 +45,9 @@ namespace Advent2023
                 {
                     int max;
                     var pair = v.Split(" ");
-                    if (pair[1] == "red") max = Day2.maxRed;
-                    else if (pair[1] == "green") max = Day2.maxGreen;
-                    else if (pair[1] == "blue") max = Day2.maxBlue;
+                    if (pair[1] == "red") max = Day02.maxRed;
+                    else if (pair[1] == "green") max = Day02.maxGreen;
+                    else if (pair[1] == "blue") max = Day02.maxBlue;
                     else throw new Exception("Invalid Color");
                     if (int.Parse(pair[0]) > max) return -1;
                 }

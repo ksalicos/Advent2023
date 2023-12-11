@@ -1,6 +1,9 @@
 # Advent2023
 Advent Of Code 2023
 
+I'm trying to approach this from a standpoint of what I would accept in a code review.  I'm wavering on the idea of treating the input as a test case or as the only goal.  I'd like to treat the problem text as the only requirements, but have strayed from that on occasion.
+A general assumption is that the input has already been checked for correctness, IRL I would have more error checking.
+
 Day 1: Rejecting regex in part one paid off for part 2.  Going to avoid it in the future.
 
 Day 2: Going to assume inputs are correct, dangerous in the real world but safe here I think.  Lots of .split here, could write a more elegant parser I think.
@@ -23,3 +26,6 @@ Day 9: Brute force was fast and easy, didn't see an obvious algorithm to get cut
 
 Day 10: Part one was fairly straightforward.  I skipped writing code that would determine valid starting directions, since the input was easy to read.  Part two was a matter of using the correct algorithm.  Initially, I wanted to use a pathing algorithm - anything I couldn't path to from an outside edge must be inside.
         This would have been fine, except that I couldn't find an elegant solution to pathing through the adjacent pipes.  After failing at this for a while, I remembered the fill algorithm I used.  This got close, but it took me a while to realize it needed to be modified to take into account the direction of the pipe.
+        Leaving the map drawing in because it's pretty.
+
+Day 11: Super trivial.  On part one, I actually altered the map, but looking at part two I changed it to a more elegant solution.  Used extra time to clean up old entries.
