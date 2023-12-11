@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Advent2023
 {
-    internal class Day1
+    internal class Day01
     {
         internal void Go()
         {
@@ -18,7 +18,7 @@ namespace Advent2023
                 line = sr.ReadLine();
                 while (line != null)
                 {
-                    sum += Day1.ReadCalibrationValue(line);
+                    sum += Day01.ReadCalibrationValue(line);
                     line = sr.ReadLine();
                 }
                 sr.Close();

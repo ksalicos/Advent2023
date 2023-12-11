@@ -20,3 +20,6 @@ Day 7: Had some trouble getting my head around the proper way to compute the of 
 Day 8: Now that I've seen solutions, I don't know that I like the LCM version.  I'd rather have code that works without assumptions made about the input.  Still opportunities to speed this up: Chinese remainder theorem?
 
 Day 9: Brute force was fast and easy, didn't see an obvious algorithm to get cute.
+
+Day 10: Part one was fairly straightforward.  I skipped writing code that would determine valid starting directions, since the input was easy to read.  Part two was a matter of using the correct algorithm.  Initially, I wanted to use a pathing algorithm - anything I couldn't path to from an outside edge must be inside.
+        This would have been fine, except that I couldn't find an elegant solution to pathing through the adjacent pipes.  After failing at this for a while, I remembered the fill algorithm I used.  This got close, but it took me a while to realize it needed to be modified to take into account the direction of the pipe.
