@@ -47,5 +47,42 @@ namespace Advent2023
             }
             return result;
         }
+
+        internal static List<string> GetPermutations(string s)
+        {
+            var result = new List<string>();
+            heaps_algorithm(s.ToCharArray(), s.Length, result, 0);
+            return result;
+        }
+
+        private static int maxd = 0;
+        private static int counter = 0;
+
+        private static void heaps_algorithm(char[] s, int size, List<string> target, int depth)
+        {
+            counter++;
+
+            void Swap(int i, int j)
+            {
+                (s[i], s[j]) = (s[j], s[i]);
+            }
+
+            if (size == 1)
+            {
+                var n = new string(s);
+                if (target.Contains(n)) return;
+                Console.WriteLine(n);
+                target.Add(n);
+                return;
+            }
+            Console.WriteLine($"{new string(s)} {depth} {counter}");
+
+            for (var i = 0; i < size; i++)
+            {
+                heaps_algorithm(s, size - 1, target, depth + 1);
+                Swap(size % 2 == 0 ? i : 0, size - 1);
+                heaps_algorithm(s, size - 1, target, depth + 1);
+            }
+        }
     }
 }
