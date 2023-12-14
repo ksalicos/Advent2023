@@ -55,12 +55,8 @@ namespace Advent2023
             return result;
         }
 
-        private static int maxd = 0;
-        private static int counter = 0;
-
         private static void heaps_algorithm(char[] s, int size, List<string> target, int depth)
         {
-            counter++;
 
             void Swap(int i, int j)
             {
@@ -75,13 +71,28 @@ namespace Advent2023
                 target.Add(n);
                 return;
             }
-            Console.WriteLine($"{new string(s)} {depth} {counter}");
 
             for (var i = 0; i < size; i++)
             {
                 heaps_algorithm(s, size - 1, target, depth + 1);
                 Swap(size % 2 == 0 ? i : 0, size - 1);
                 heaps_algorithm(s, size - 1, target, depth + 1);
+            }
+        }
+
+        internal static bool LogActive { get; set; }
+        internal static void Log(string s, bool always = false)
+        {
+            if (LogActive || always) Console.WriteLine(s);
+        }
+
+        internal static void Log(string s, ConsoleColor color, bool always = false)
+        {
+            if (LogActive || always)
+            {
+                Console.ForegroundColor = color;
+                Console.WriteLine(s);
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
     }
