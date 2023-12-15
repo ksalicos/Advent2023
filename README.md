@@ -36,3 +36,5 @@ Day 13: Super trivial.  Day 12 had trained me well for this.
 
 Day 14: Took too long after misreading part two.  I wrote a method for calculating part one without modifying the input, but then found I did need to modify the input for part two.
 Code is wonky due to trying to solve for the wrong answer.  I did think of a way to do the transforms in one pass, but this ran fast enough that optimization wasn't needed.
+
+Day 15: The problem was simple, however I apparently need a refresher on basic arithmatic.  Luckily, unit tests saved me from committing a very embarassing error!
