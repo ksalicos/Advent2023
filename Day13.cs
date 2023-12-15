@@ -14,7 +14,6 @@ namespace Advent2023
 
         internal void Go()
         {
-            Console.Clear();
             try
             {
                 // var sr = new StreamReader("C:\\code\\advent2023\\day13test.txt");

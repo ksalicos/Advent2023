@@ -30,4 +30,9 @@ Day 10: Part one was fairly straightforward.  I skipped writing code that would 
 
 Day 11: Super trivial.  On part one, I actually altered the map, but looking at part two I changed it to a more elegant solution.  Used extra time to clean up old entries.
 
-Day 12: Not Super Trivial.  Going to check in the multiple algorithms I tried, to look over later and see where I went wrong.
+Day 12: Not Super Trivial.  Going to check in the multiple algorithms I tried, to look over later and see where I went wrong.  Part 2 beat me.  Even with what should have been a faster algorithm, my stack grew too quickly.
+
+Day 13: Super trivial.  Day 12 had trained me well for this.
+
+Day 14: Took too long after misreading part two.  I wrote a method for calculating part one without modifying the input, but then found I did need to modify the input for part two.
+Code is wonky due to trying to solve for the wrong answer.  I did think of a way to do the transforms in one pass, but this ran fast enough that optimization wasn't needed.
