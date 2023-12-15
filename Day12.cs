@@ -27,8 +27,9 @@ namespace Advent2023
                 }
                 sr.Close();
 
+                OldPartOne();
                 PartOne();
-                // PartTwo();
+                PartTwo();
             }
             catch (Exception e)
             {
@@ -50,14 +51,24 @@ namespace Advent2023
 
             foreach (var line in _lines)
             {
-                // log = line.pattern == "????????????#.?";
-                // log = true;
+                var logpattern = "";
+                log = line.pattern == logpattern;
+                //log = true;
 
                 var total = CanFitToo(line.pattern, line.key);
-                //Log($"{line.pattern} {string.Join(", ", line.key)} expands to");
-                Log($"{line.pattern} {string.Join(",", line.key)}: {total}", ConsoleColor.Cyan, true);
+                Log($"{line.pattern} {string.Join(",", line.key)}: {total}", ConsoleColor.Cyan);
                 Log("---------------------");
-                // Console.ReadLine();
+                var h = hash(line.pattern, line.key);
+                var expected = _matches[h];
+                if (total != expected)
+                {
+                    log = true;
+                    _states.Clear();
+                    OldPartOne(h);
+                    CanFitToo(line.pattern, line.key);
+                    throw new Exception($"Error in count for input: {line.pattern}, expected {expected}, received {total}");
+                }
+
                 count += total;
             }
 
@@ -73,6 +84,60 @@ namespace Advent2023
         ?###???????? 3,2,1 - 10 arrangements
          */
 
+        private void OldPartOne(string test = null)
+        {
+            Dictionary<(int, int), List<string>> patterns = new();
+
+            long count = 0;
+
+            foreach (var line in _lines)
+            {
+                List<string> permutations = new() { "" };
+                var brokenTotal = line.key.Sum();
+
+                foreach (var t in line.pattern)
+                {
+                    var next = new List<string>();
+
+                    foreach (var c in permutations)
+                    {
+                        if (t != '?')
+                        {
+                            next.Add(c + t);
+                        }
+                        else
+                        {
+                            var broke = c.Count(x => x is '#');
+
+                            if (broke < brokenTotal)
+                            {
+                                next.Add(c + "#");
+                            }
+
+                            if (line.pattern.Length - c.Length >= brokenTotal - broke)
+                            {
+                                next.Add(c + ".");
+                            }
+                        }
+                    }
+                    permutations = next;
+                }
+
+                var v = permutations.Where(p => IsValid(p, line.key, 1)).ToList();
+                var p = v.Count();
+                if (hash(line.pattern, line.key) == test)
+                    v.ForEach(a=>Log(a, always:true));
+                _matches[hash(line.pattern, line.key)] = p;
+                count += p;
+            }
+
+            if (test == null)
+            {
+                Log("Day Twelve Part One (correct): " + count, true);
+            }
+        }
+
+        private Dictionary<string, int> _matches = new();
 
         private void PartTwo()
         {
@@ -85,7 +150,6 @@ namespace Advent2023
                 var total = CanFitToo(pattern, key);
                 Log($"{pattern} {string.Join(",", key)}: {total}", ConsoleColor.Cyan, true);
                 Log("---------------------");
-                // Console.ReadLine();
                 count += total;
             }
 
@@ -172,16 +236,25 @@ namespace Advent2023
                         throw new Exception("Bad input: " + state);
                     };
 
-                    if (log && pattern.StartsWith('?') && length == 1)
-                        winners.Add(state);
+                    if (pattern == "")
+                    {
+                        Log("Stop!");
+                    }
 
                     if (_states.ContainsKey(state))
                     {
                         if (_states[state].Contains("Winner"))
                         {
                             Log("Found a winner in the cache! " + state, ConsoleColor.DarkGreen);
-                            count++;
-                            list.AddRange(_states[state].Where(x => x != "Winner").ToList());
+                            count += _states[state].Count(c => c == "Winner");
+                            var more = _states[state].Where(x => x != "Winner").ToList();
+                            if (more.Any())
+                            {
+                                list.AddRange(more);
+                                Log("Extras found: " + more.Count);
+                                more.ForEach(f => Log("- " + f));
+                            }
+
                             continue;
                         }
 
@@ -194,6 +267,7 @@ namespace Advent2023
                         list.AddRange(_states[state]);
                         Log("Cache Hit: " + state, ConsoleColor.DarkCyan);
                         Log($"Added {_states[state].Count}, Now: {list.Count}");
+                        _states[state].ForEach(re => Log(re));
                         Log("---");
                         continue;
                     }
@@ -208,7 +282,8 @@ namespace Advent2023
                     }
 
                     var last = !t[1].Contains(',');
-                    var canBite = !pattern[..length].Contains('.');
+                    var canBite = !pattern[..length].Contains('.')
+                        && (pattern.Length == length || pattern[length] != '#');
 
                     if (!last && length + 1 >= pattern.Length)
                     {
@@ -237,17 +312,36 @@ namespace Advent2023
                     var bitten = $"{TrimDots(pattern[(length + 1)..])}|{next}";
                     var skipped = $"{TrimDots(pattern[1..])}|{t[1]}";
                     var endingClear = pattern[length..^0].All(x => x != '#');
-                    var mustBite = pattern[length] == '.';
+                    var mustBite = pattern.StartsWith('#');
+
+                    if (mustBite && !canBite)
+                    {
+                        FailState(state);
+                        Log($"So hungry: {state}", ConsoleColor.DarkRed);
+                        continue;
+                    }
 
                     if (last
                         && canBite
                         && endingClear)
                     {
                         count++;
-                        Log($"Winner, same length... almost: {state}", ConsoleColor.Green);
-                        // We're a winner if the next is a ?, so take the win and re-eval with a #
-                        var foo = $"{skipped[0..(length - 1)]}#{skipped[length..^0]}";
-                        list.Add(foo);
+                        if (mustBite)
+                        {
+                            WinState(state);
+                            Log($"Winner, same length... almost: {state}", ConsoleColor.Green);
+                        }
+                        else
+                        {
+                            // We might be able to go on, so take the win and re-eval with a #
+                            Log("Not having this code here made the progam not run");
+                            list.Add(skipped);
+
+                            _states[state] = new List<string>
+                            {
+                                skipped, "Winner"
+                            };
+                        }
                         continue;
                     }
 
@@ -308,7 +402,7 @@ namespace Advent2023
                     {
                         if (last)
                         {
-                            if (canBite)
+                            if (canBite && endingClear)
                             {
                                 count++;
                                 Log($"Winner, but might eat more: {state}", ConsoleColor.Green);
@@ -350,7 +444,6 @@ namespace Advent2023
                     list.AddRange(toAdd);
                     Log($"Added {toAdd.Count}, Now: {list.Count}");
                     Log("---");
-                    // if (log) Console.ReadLine();
                     list.Sort((a, b) => a.Length > b.Length ? 1 : 0);
                 }
 
@@ -373,7 +466,7 @@ namespace Advent2023
         }
 
         // Was used in original part one, keeping in case
-        private bool IsValid(string pattern, List<int> keys, int multilpier)
+        private bool IsValid(string pattern, int[] keys, int multilpier)
         {
             var count = 0;
             var broken = false;
@@ -383,14 +476,14 @@ namespace Advent2023
             {
                 if (t == '#')
                 {
-                    if (k == keys.Count * multilpier) return false;
+                    if (k == keys.Length * multilpier) return false;
                     count++;
                     broken = true;
                 }
                 else
                 {
                     if (!broken) continue;
-                    if (keys[k % keys.Count] != count) return false;
+                    if (keys[k % keys.Length] != count) return false;
                     count = 0;
                     broken = false;
                     k++;
@@ -399,11 +492,11 @@ namespace Advent2023
 
             if (broken)
             {
-                if (keys[k % keys.Count] != count) return false;
+                if (keys[k % keys.Length] != count) return false;
                 k++;
             }
 
-            return k == keys.Count * multilpier;
+            return k == keys.Length * multilpier;
         }
     }
 }
