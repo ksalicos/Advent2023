@@ -1,5 +1,5 @@
 # Advent2023
-Advent Of Code 2023
+[Advent Of Code 2023](https://adventofcode.com/2023)
 
 I'm trying to approach this from a standpoint of what I would accept in a code review.  I'm wavering on the idea of treating the input as a test case or as the only goal.  I'd like to treat the problem text as the only requirements, but have strayed from that on occasion.
 A general assumption is that the input has already been checked for correctness, IRL I would have more error checking.
